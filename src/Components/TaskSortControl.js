@@ -44,7 +44,7 @@ class TaskSortControl extends Component {
                                 Trạng Thái Kích Hoạt
                             </a>
                         </li>
-                        <li onClick={ () => this.onClick('status', -1) }>
+                        <li /*onClick={ () => this.onClick('status', -1) }*/>
                             <a
                                 role="button">
                               

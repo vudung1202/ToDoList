@@ -12,11 +12,11 @@ class TaskItem extends Component {
     }
 
 	render() {
-        const { tasks,index } = this.props;
+        
         return (
             <tr>
                 <td>{ this.props.index }</td>
-                <td>{ this.props.name }</td>
+                <td>{ this.props.task.name }</td>
                 <td className="text-center">
                      { this.showStatusElement() }
                 </td>

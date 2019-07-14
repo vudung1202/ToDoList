@@ -14,31 +14,6 @@ class App extends Component {
         };
     }
 
-    onGenerateData = () => {
-        var tasks = [
-           {
-               id: this.guid(),
-               name: 'Hoc Lap trinh',
-               status:true 
-           }, 
-           {
-               id: this.guid(),
-               name: 'Hoc react ',
-               status:false 
-           }, 
-           {
-               id: this.guid(),
-               name: 'Hoc ',
-               status:true 
-           }
-        ];
-        this.setState({
-            tasks : tasks
-        });
-    }
-
-
-
     componentWillMount() {
         if (localStorage && localStorage.getItem('tasks')){
             var tasks = JSON.parse(localStorage.getItem('tasks'));  
@@ -69,9 +44,20 @@ class App extends Component {
         })
     }    
 
+    onSave = ( data ) => {
+        var { tasks } = this.state;
+        data.id = this.guid();
+        tasks.push(data);
+        this.setState({
+           tasks : tasks
+        })
+        localStorage.setItem('tasks',JSON.stringify(tasks));
+    }
+
     render() {
         var { tasks, isDisplayForm } = this.state;
-        var elmTaskForm = isDisplayForm ? <TaskForm onCloseForm= {this.onCloseForm}/> : '';
+        var elmTaskForm = isDisplayForm ? <TaskForm onSave = {this.onSave}  onCloseForm= {this.onCloseForm}/> : '';
+
         return (
             <div className="container">
                 <div className="text-center">
@@ -87,13 +73,13 @@ class App extends Component {
                             className="btn btn-primary"  
                             onClick = { this.onToggleForm }
                         >
-                            <span className="fa fa-plus mr-5"></span>Thêm Công Việc
-                        </button>
-                        <button type="button" className="btn btn-danger ml-5" onClick = {this.onGenerateData }>
-                             Generate Data
-                        </button>
+                            <span className="fa fa-plus mr-5"></span> Thêm Công Việc
+                        </button>                        
                            <TaskControl/>
-                           <TaskList tasks = { tasks }/> 
+
+                           <TaskList 
+                               tasks = { tasks }
+                            /> 
                        
                     </div>
                 </div>
