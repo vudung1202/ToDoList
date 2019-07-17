@@ -2,6 +2,25 @@ import React, { Component } from 'react';
 import TaskItem from './TaskItem';
 
 class TaskList extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            filterName : '',
+            filterStatus : -1
+        };
+    }
+
+    onChange = (event) => {
+        var target = event.target;
+        var name = target.name;
+        var value = target.type === 'checkbox' ? target.checked : target.value;
+        this.props.onFilter(name === 'filterName' ? value : this.state.filterName, name === 'filterStatus' ? value : this.state.filterStatus);
+        this.setState({
+            [name] : value
+        });
+    }
+
 	render() {		
         const { tasks } = this.props;
         const elmTasks = tasks.map((task, index ) => {
@@ -10,6 +29,10 @@ class TaskList extends Component {
                    key = { task.id } 
                    index = { index + 1 } 
                    task = { task } 
+                   onUpdateStatus = { this.props.onUpdateStatus }
+                   onDeleteItem = { this.props.onDeleteItem }
+                   onSelectedItem = { this.props.onSelectedItem }
+
                 />
             )    
         });
@@ -33,16 +56,16 @@ class TaskList extends Component {
                                         type="text"
                                         className="form-control"
                                         name="filterName"
-                                     /*   onChange={ this.onChange }
-                                        value={ this.state.filerName }*/
+                                        onChange={ this.onChange }
+                                        value={ this.state.filterName }
                                     />
                                 </td>
                                 <td>
                                     <select
                                         className="form-control"
                                         name="filterStatus"
-                                       /* onChange={ this.onChange }
-                                        value={ this.state.filerName }*/
+                                        onChange={ this.onChange }
+                                        value={ this.state.filterStatus }
                                     >
                                         <option value={-1}>Tất Cả</option>
                                         <option value={0}>Ẩn</option>

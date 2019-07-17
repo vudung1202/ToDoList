@@ -4,9 +4,31 @@ class TaskForm extends Component {
 
     constructor(props){
         super(props);
-        this.state = {
-            name : '',
-            status : false
+        this.state = {};
+    }
+// 
+    componentWillMount() {
+        if ( this.props.itemEditing  && this.props.itemEditing.id !== null ){
+            this.setState({
+                id : this.props.itemEditing.id,
+                name : this.props.itemEditing.name,
+                status : this.props.itemEditing.status
+            });
+        }else{
+            this.onClear();
+        }
+    }
+
+// Chuyển đổi trạng thái từ sửa sang thêm công việc
+    componentWillReceiveProps(nextProps) {
+        if ( nextProps && nextProps.itemEditing){
+            this.setState({
+                id : nextProps.itemEditing.id,
+                name : nextProps.itemEditing.name,
+                status : nextProps.itemEditing.status
+            });
+        }else if ( !nextProps.itemEditing ){
+            this.onClear();
         }
     }
 
@@ -18,9 +40,6 @@ class TaskForm extends Component {
         var target = event.target;
         var name = target.name;
         var value = target.type ==='checkbox' ? target.checked : target.value;
-        // if ( name = 'status'){
-        //     value = target.value ==='true' ? true : false;
-        // }
         this.setState({
             [ name ] : value
         });
@@ -35,6 +54,7 @@ class TaskForm extends Component {
 
     onClear = () =>{
         this.setState({
+            id : '',
             name : '',
             status : false
         });
@@ -45,7 +65,7 @@ class TaskForm extends Component {
             <div className="panel panel-warning">
                 <div className="panel-heading">
                     <h3 className="panel-title">
-                        Thêm Công Việc
+                        { !this.state.id ? 'Thêm Công Việc' : 'Cập Nhật Công Việc' }
                         <span
                             className="fa fa-times-circle text-right"
                             onClick = {this.onCloseForm}

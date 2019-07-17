@@ -6,9 +6,21 @@ class TaskItem extends Component {
         return (
             <span
                 className={ this.props.task.status ? 'label label-danger' : 'label label-info' }
-                
+                onClick = { this.onUpdateStatus}
             >{ this.props.task.status === true ? 'Kích Hoạt' : 'Ẩn' }</span>
         );
+    }
+
+    onUpdateStatus = () => {
+        this.props.onUpdateStatus( this.props.task.id )
+    }
+
+    onDeleteItem = () => {
+        this.props.onDeleteItem( this.props.task.id )
+    }
+
+    onSelectedItem = () => {
+        this.props.onSelectedItem(this.props.task);
     }
 
 	render() {
@@ -21,11 +33,11 @@ class TaskItem extends Component {
                      { this.showStatusElement() }
                 </td>
                 <td className="text-center">
-                    <button type="button" className="btn btn-warning" /*onClick={ this.onSelectedItem }*/>
+                    <button type="button" className="btn btn-warning" onClick={ this.onSelectedItem }>
                         <span className="fa fa-pencil mr-5"></span>Sửa
                     </button>
                     &nbsp;
-                    <button type="button" className="btn btn-danger" /*onClick={ this.onDeleteItem }*/>
+                    <button type="button" className="btn btn-danger" onClick={ this.onDeleteItem }>
                         <span className="fa fa-trash mr-5"></span>Xóa
                     </button>
                 </td>
